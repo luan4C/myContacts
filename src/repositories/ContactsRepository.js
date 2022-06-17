@@ -30,9 +30,49 @@ class ContactsRepository {
   }
 
   findById(id) {
-    const contact = contacts.filter((contactObj) => contactObj.id === id);
+    const [contact] = contacts.filter((contactObj) => contactObj.id === id);
 
     return new Promise((resolve) => { resolve(contact); });
+  }
+
+  findByEmail(email) {
+    const [contact] = contacts.filter((contactObj) => contactObj.email === email);
+
+    return new Promise((resolve) => { resolve(contact); });
+  }
+
+  create({
+    name, email, phone, category_id,
+  }) {
+    return new Promise((resolve) => {
+      const newContact = {
+        id: v4(),
+        name,
+        email,
+        phone,
+        category_id,
+      };
+      contacts.push(newContact);
+      resolve(newContact);
+    });
+  }
+
+  update(id, {
+    name, email, phone, category_id,
+  }) {
+    return new Promise((resolve) => {
+      const updatedContact = {
+        id: v4(),
+        name,
+        email,
+        phone,
+        category_id,
+      };
+
+      contacts = contacts.map((contact) => (contact.id === id ? updatedContact : contact));
+
+      resolve(updatedContact);
+    });
   }
 
   removeById(id) {
