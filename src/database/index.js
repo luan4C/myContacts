@@ -8,7 +8,12 @@ const client = new Client({
   database: 'mycontacts',
 });
 
-client.connect();
+client.connect().then(()=>{
+  console.log("\nConnect to database successfuly 🔥🚀")
+}).catch(()=>{
+  console.warn("\nError when connecting to the database")
+})
+;
 
 exports.query = async (query, values) => {
   const { rows } = await client.query(query, values);
